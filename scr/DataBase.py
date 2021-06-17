@@ -1,4 +1,4 @@
-import firebase_admin
+import firebase_admin, hashlib
 import json
 from firebase_admin import db
 
@@ -10,8 +10,8 @@ cred_obj = firebase_admin.credentials.Certificate('scr\stats-tracker-6563e-fireb
 default_app = firebase_admin.initialize_app(cred_obj, {
     'databaseURL' : databaseURL
 })
+'''
 
-ref = db.reference("/")
 
 
 
@@ -52,32 +52,49 @@ def change_password(user_name_a):
     ref.child('Basic Data').child(user_name_a).update({'password':new_password})
 
 #change_password(user_name)
-
+user_ref = db.reference("/Games/")
+x=user_ref.get()
+y=x.keys()
+print(y)
+'''
 
 
 # Sistema de login 2 simplificado
 class LoginBase:
+    ref = db.reference("/")
     def GetUserDatabase(self,username):
         user_ref = db.reference("/Basic Data/"+username)
         return user_ref
+
+    def GetId(self,username):
+        x=self.GetUserDatabase(username)
+        user_database = x.get()
+        return user_database['id']
+    def GetGamesNames(self):
+        games_ref=db.reference("/Games/")
+        lista=games_ref.get()
+        lista=lista.keys()
+        return lista
 
     def LoginUser(self,user_ref,password):
         user_database = user_ref.get()
         try:
             if user_database['password'] == password:
-                print("Entrando")
+                return "Entrando"
             else:
-                print("Contraseña Erronea")
+                return "Contraseña Erronea"
         except:
-            print("User Not Found")
+            return "User Not Found"
 
-    def RegisterUser(self,user_ref,username,password,id):
+    def RegisterUser(self,user_ref,username,password):
         user_database = user_ref.get()
         if user_database==None:
-            print("No existe, lo registro")
-            ref.child('Basic Data').update({username:{'id' : id, 'password' : password}})
+            newId = hashlib.sha1(username.encode('utf-8'))
+            self.ref.child('Basic Data').update({username:{'id' : newId.hexdigest(), 'password' : password}})
+            return True
         else:
-            print("Ya existe el usuario, no se registrará")
+            return False
+            
           
             
 

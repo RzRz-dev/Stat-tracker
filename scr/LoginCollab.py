@@ -13,7 +13,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(900, 700)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label_user = QtWidgets.QLabel(self.centralwidget)
@@ -80,4 +79,4 @@ class Ui_MainWindow(object):
         self.Register_Button.setText(_translate("MainWindow", "Register"))
         self.Input_User.setPlaceholderText(_translate("MainWindow", "Username"))
         self.Input_Password.setPlaceholderText(_translate("MainWindow", "Password"))
-        self.label_status.setText(_translate("MainWindow", "SADa"))
+        self.label_status.setText(_translate("MainWindow", ""))
