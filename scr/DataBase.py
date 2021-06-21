@@ -94,7 +94,11 @@ class LoginBase:
             return True
         else:
             return False
-            
+    def GetPlayerInfo(self,id,ref):
+        game_ref=db.reference("/Games/"+ref+"/"+id)
+        lista=game_ref.get()
+        return lista
+
           
             
 

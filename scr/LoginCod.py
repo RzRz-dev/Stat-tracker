@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets,QtCore,QtGui
 from LoginCollab import Ui_MainWindow
 from DataBase import LoginBase
 from User_menu import Ui_UserMenu
+from Ventana_Info_Juego import Ui_Juego
 import sys
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -41,18 +42,30 @@ class MainWindow(QtWidgets.QMainWindow):
         games=temp.GetGamesNames()
         for i in games:
             self.ui.listWidget.addItem(i)
-
-
-    #arreglar   
-    """
         self.ui.pushButton.clicked.connect(self.GetGame)
-    def GetGame(self):
-        actual=self.ui.listWidget.currentRow()
-        game=actual.getText()
-        print(game)
 
-        #hacer funcion que obtenga id y ruta del juego
-    """
+    def GetGame(self):
+        try:
+            actual=self.ui.listWidget.currentItem().text()
+            self.MostrarInfoJuego(actual)
+        except AttributeError:
+            None
+    
+    def MostrarInfoJuego(self,juego):
+        self.ui=Ui_Juego()
+        self.ui.setupUi(self)
+        temp=LoginBase()
+        lista=temp.GetPlayerInfo(self.id,juego)
+        llaves=lista.keys()
+        valores=lista.values()
+        for i in llaves:
+            self.ui.listWidget.addItem(i)
+        for i in valores:
+            self.ui.listWidget_2.addItem(str(i))
+        #Arreglar el Ventana_Info_Juego para que sea una tabla con 2 columnas
+        #Revisar si es posible empotrar ventanas en un frame
+        #Agregar imágenes si es posible en los frames
+            
 
     def RegisterFunc(self):
         datos = self.InputReceive()
