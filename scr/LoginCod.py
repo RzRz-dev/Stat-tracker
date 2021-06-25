@@ -54,18 +54,30 @@ class MainWindow(QtWidgets.QMainWindow):
     def MostrarInfoJuego(self,juego):
         self.ui=Ui_Juego()
         self.ui.setupUi(self)
+        self.ui.label_nombre.setText(self.user)
+        self.ui.label_juego.setText(juego)
+        self.RellenarTabla(juego)
+        self.SetImages(juego)
+        self.ui.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        #Agregar imagenes en firebase
+        #Agregar las funciones de los botones
+        #Revisar si es posible que la tabla se actualice
+    def SetImages(self,x):
+        self.ui.png_game.setPixmap(QtGui.QPixmap("scr/Images/"+x+".jpg"))
+        self.ui.png_user.setPixmap(QtGui.QPixmap("scr/Images/cuenta.png"))
+
+    def RellenarTabla(self,juego):
         temp=LoginBase()
         lista=temp.GetPlayerInfo(self.id,juego)
-        llaves=lista.keys()
-        valores=lista.values()
-        for i in llaves:
-            self.ui.listWidget.addItem(i)
-        for i in valores:
-            self.ui.listWidget_2.addItem(str(i))
-        #Arreglar el Ventana_Info_Juego para que sea una tabla con 2 columnas
-        #Revisar si es posible empotrar ventanas en un frame
-        #Agregar imágenes si es posible en los frames
+        cont=0
+        for i in lista:
+            self.ui.tableWidget.insertRow(cont)
+            celda1 = QtWidgets.QTableWidgetItem(i)
+            celda2 = QtWidgets.QTableWidgetItem(str(lista.get(i)))
+            self.ui.tableWidget.setItem(cont,0,celda1)
+            self.ui.tableWidget.setItem(cont,1,celda2)
             
+            cont +=1
 
     def RegisterFunc(self):
         datos = self.InputReceive()
