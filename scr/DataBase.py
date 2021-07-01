@@ -97,8 +97,9 @@ class LoginBase:
     def GetPlayerInfo(self,id,ref):
         game_ref=db.reference("/Games/"+ref+"/"+id)
         lista=game_ref.get()
+        if lista == None:
+            game_ref=db.reference("/Games/"+ref+"/dummy")
+            lista=game_ref.get()
         return lista
-
-          
-            
-
+        
+    #def RegisterPlayerInfo(self,id,ref):

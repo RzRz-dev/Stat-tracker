@@ -2,7 +2,9 @@ from PyQt5 import QtWidgets,QtCore,QtGui
 from LoginCollab import Ui_MainWindow
 from DataBase import LoginBase
 from User_menu import Ui_UserMenu
+import requests
 from Ventana_Info_Juego import Ui_Juego
+from ImageManager import ImageManager
 import sys
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -49,22 +51,36 @@ class MainWindow(QtWidgets.QMainWindow):
             actual=self.ui.listWidget.currentItem().text()
             self.MostrarInfoJuego(actual)
         except AttributeError:
+            
             None
     
     def MostrarInfoJuego(self,juego):
+        def CallThisWindow():
+            self.MostrarInfoJuego(juego)
+        
         self.ui=Ui_Juego()
         self.ui.setupUi(self)
+        self.juego_ref = juego
         self.ui.label_nombre.setText(self.user)
         self.ui.label_juego.setText(juego)
         self.RellenarTabla(juego)
         self.SetImages(juego)
         self.ui.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        #Agregar imagenes en firebase
+        self.ui.pushButton_Edit.clicked.connect(CallThisWindow)
+        
+        #Hacer los popups de los botones
         #Agregar las funciones de los botones
-        #Revisar si es posible que la tabla se actualice
+
     def SetImages(self,x):
-        self.ui.png_game.setPixmap(QtGui.QPixmap("scr/Images/"+x+".jpg"))
-        self.ui.png_user.setPixmap(QtGui.QPixmap("scr/Images/cuenta.png"))
+        temp=ImageManager()
+        url_image_game = temp.GetUrl_Image("juegos",x)
+        url_image_user = temp.GetUrl_Image("usuarios",self.user)
+        image_game = QtGui.QImage()
+        image_game.loadFromData(requests.get(url_image_game).content)
+        image_user = QtGui.QImage()
+        image_user.loadFromData(requests.get(url_image_user).content)
+        self.ui.png_game.setPixmap(QtGui.QPixmap(image_game))
+        self.ui.png_user.setPixmap(QtGui.QPixmap(image_user))
 
     def RellenarTabla(self,juego):
         temp=LoginBase()
@@ -75,9 +91,9 @@ class MainWindow(QtWidgets.QMainWindow):
             celda1 = QtWidgets.QTableWidgetItem(i)
             celda2 = QtWidgets.QTableWidgetItem(str(lista.get(i)))
             self.ui.tableWidget.setItem(cont,0,celda1)
-            self.ui.tableWidget.setItem(cont,1,celda2)
-            
+            self.ui.tableWidget.setItem(cont,1,celda2)    
             cont +=1
+
 
     def RegisterFunc(self):
         datos = self.InputReceive()
