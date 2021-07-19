@@ -70,6 +70,29 @@ class LoginBase:
         x=self.GetUserDatabase(username)
         user_database = x.get()
         return user_database['id']
+    '''
+    def GetUsername(self,id):
+        x=self.GetUserDatabase(id)
+        user_database = x.get()
+        return user_database['user_database']
+
+    def GetUserDatabase(self,id):
+        user_ref = db.reference("/Basic Data/"+id)
+        return user_ref
+    
+    def GetId(self,username):
+        id = hashlib.sha1(username.encode('utf-8')).hexdigest()
+        return id
+    
+    def RegisterUser(self,user_ref,username,password,id):
+        user_database = user_ref.get()
+        if user_database==None:
+            self.ref.child('Basic Data').update({id:{'username' : username, 'password' : password}})
+            return True
+        else:
+            return False
+    '''
+
     def GetGamesNames(self):
         games_ref=db.reference("/Games/")
         lista=games_ref.get()
@@ -94,6 +117,7 @@ class LoginBase:
             return True
         else:
             return False
+    
     def GetPlayerInfo(self,id,ref):
         game_ref=db.reference("/Games/"+ref+"/"+id)
         lista=game_ref.get()
