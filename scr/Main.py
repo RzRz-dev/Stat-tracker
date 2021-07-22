@@ -2,6 +2,8 @@ import hashlib
 from LOL_Info import LOL_Info
 from Node_Builder import *
 from Node_Tools import *
+import time
+import profile
 
 
 class CmdUI:
@@ -249,4 +251,69 @@ class CmdUI:
         "--------------------------------"   
         )
 
-interfaz = CmdUI()
+if __name__ == '__main__':
+    interfaz = CmdUI()
+
+'''
+def func():
+    arbol = ArbolAVL()
+    doc = open("scr\Datos\data.txt","r")
+    lista = doc.readlines()
+    doc.close()
+    start = time.perf_counter()
+    for i in range(0,len(lista)):
+        nodo = Node(lista[i])
+        arbol.AVLinsert(nodo)
+    total = time.perf_counter()-start
+    print(total)
+    start = time.perf_counter()
+    arbol.find(arbol.root,"!")
+    total = time.perf_counter()-start
+    print(total)
+#func()
+
+
+#profile.run(func())
+doc = open("scr\Datos\hashtest\data1.txt","r")
+lista = doc.readlines()
+doc.close()
+
+def func1():
+    tmp_P = NodeBuilder("scr\Datos\ArbolPrueba.json")
+    start = time.perf_counter()
+    AVLDict_P = tmp_P.ReadTree()
+    AVLTree_P = tmp_P.ReconstructTree(AVLDict_P)
+    total = time.perf_counter()-start
+    print("DIC TO AVL = " + str(total))
+
+    start = time.perf_counter()
+    for i in range(0,len(lista)):
+        datadir="JumpKing_"+lista[i]
+        nodo = Node_JumpKing(datadir,0,0,0)
+        AVLTree_P.AVLinsert(nodo)
+    total = time.perf_counter()-start
+    print("Insert Arbol = "+str(total))
+    start = time.perf_counter()
+    AVLTree_P.find(AVLTree_P.root,"1")
+    total = time.perf_counter()-start
+    print("Find = " + str(total))
+
+    start = time.perf_counter()
+    AVLDict_P = tmp_P.InOrderTrav_Dict(AVLTree_P.root,AVLDict_P)
+    total = time.perf_counter()-start
+    print("AVL TO DIC = " + str(total))
+    tmp_P.SaveTree(AVLDict_P)
+func1()
+
+
+num = int(input())
+arbol = ArbolAVL()
+start = time.perf_counter()
+for i in range(0,num):
+    dat = input()
+    print(i)
+    nodo = Node(dat)
+    arbol.AVLinsert(nodo)
+total = time.perf_counter()-start
+print(total)
+'''
