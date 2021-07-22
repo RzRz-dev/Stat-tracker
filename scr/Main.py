@@ -53,7 +53,6 @@ class CmdUI:
                 if tmp == None:
                     print("SE REGISTRARÁ EL USUARIO")
                     nodo = Node_User(Node_ID,user,password)
-                    nodo.PrintNode()
                     self.AVLTree_U.AVLinsert(nodo)
                     self.AVLTree_U.InOrderTrav(self.AVLTree_U.root)
                 elif tmp.direccion == Node_ID:
@@ -61,7 +60,6 @@ class CmdUI:
                 else:
                     print("SE REGISTRARÁ EL USUARIO")
                     nodo = Node_User(Node_ID,user,password)
-                    nodo.PrintNode()
                     self.AVLTree_U.AVLinsert(nodo)
                     self.AVLTree_U.InOrderTrav(self.AVLTree_U.root)
             elif op == "3":
