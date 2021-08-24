@@ -15,7 +15,7 @@ class ImageManager:
         }
         firebase=pyrebase.initialize_app(config)
         self.storage= firebase.storage()
-        #self.localS="scr/Images/"
+        self.localS="scr/Images/"
         self.cloudS="images/"
     '''
     def downloadImage (self,fileName):
@@ -24,16 +24,21 @@ class ImageManager:
         except:
             print("error de descarga")
     '''
-    def uploadImage (self,filename):
-    
-        try:
-            self.storage.child(self.localS+"/test.jpg").put(self.localS+"/test.jpg")
+    def uploadImage (self,filename,saveas):
+        
+            
+        self.storage.child(self.cloudS+"juegos/"+saveas).put(self.localS+filename)
+        '''
         except:
             print("error de descarga")
+            '''
     
 
     def GetUrl_Image(self,ruta,nombre):
         path_on_cloud = "images/"+ruta+"/"+str(nombre)
         x=self.storage.child(path_on_cloud).get_url(1)
         return x
-
+        
+if __name__ == '__main__':
+    x=ImageManager()
+    x.uploadImage("Dark Souls.jpg","Dark Souls")

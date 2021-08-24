@@ -51,7 +51,6 @@ class MainWindow(QtWidgets.QMainWindow):
             actual=self.ui.listWidget.currentItem().text()
             self.MostrarInfoJuego(actual)
         except AttributeError:
-            
             None
     
     def MostrarInfoJuego(self,juego):
@@ -91,7 +90,7 @@ class MainWindow(QtWidgets.QMainWindow):
             celda1 = QtWidgets.QTableWidgetItem(i)
             celda2 = QtWidgets.QTableWidgetItem(str(lista.get(i)))
             self.ui.tableWidget.setItem(cont,0,celda1)
-            self.ui.tableWidget.setItem(cont,1,celda2)    
+            self.ui.tableWidget.setItem(cont,1,celda2)
             cont +=1
 
 
