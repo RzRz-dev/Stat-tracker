@@ -1,3 +1,4 @@
+from typing import List
 import firebase_admin, hashlib
 import json
 from firebase_admin import db
@@ -6,7 +7,7 @@ from firebase_admin import db
 
 databaseURL = "https://stats-tracker-6563e-default-rtdb.firebaseio.com/"
 #cred_obj = firebase_admin.credentials.Certificate('stats-tracker-6563e-firebase-adminsdk-x2pev-964f37b0f7.json')
-cred_obj = firebase_admin.credentials.Certificate('scr\stats-tracker-6563e-firebase-adminsdk-x2pev-964f37b0f7.json')
+cred_obj = firebase_admin.credentials.Certificate('scr\Datos\stats-tracker-6563e-firebase-adminsdk-x2pev-964f37b0f7.json')
 default_app = firebase_admin.initialize_app(cred_obj, {
     'databaseURL' : databaseURL
 })
@@ -99,6 +100,11 @@ class LoginBase:
         lista=lista.keys()
         return lista
 
+    def GetGameLimits(self,ref):
+        games_ref=db.reference("/Games/"+ref+"/Topes")
+        lista = games_ref.get()
+        return lista
+
     def LoginUser(self,user_ref,password):
         user_database = user_ref.get()
         try:
@@ -120,9 +126,10 @@ class LoginBase:
     
     def GetPlayerInfo(self,id,ref):
         game_ref=db.reference("/Games/"+ref+"/"+id)
+        print("/Games/"+ref+"/"+id)
         lista=game_ref.get()
         if lista == None:
-            game_ref=db.reference("/Games/"+ref+"/dummy")
+            game_ref=db.reference("/Games/"+ref+"/Dummy")
             lista=game_ref.get()
         return lista
         

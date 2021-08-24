@@ -1,7 +1,7 @@
 import hashlib
 from LOL_Info import LOL_Info
-from Node_Builder import *
-from Node_Tools import *
+from Structures.Node_Builder import *
+from Structures.Node_Tools import *
 import time
 import profile
 
